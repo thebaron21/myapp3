@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">nara</string>
+    <string name="facebook_app_id">539426040677189</string>
+    <string name="fb_login_protocol_scheme">fb539426040677189</string>
+</resources>
