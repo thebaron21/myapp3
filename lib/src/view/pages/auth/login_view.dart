@@ -180,6 +180,7 @@ class _LoginViewState extends State<LoginView> {
       }
       setState(() => _loading = false);
     } catch (e) {
+      log("google error :$e");
       setState(() => _loading = false);
       RouterF.of(context).message("خطأ", e.toString());
     }
@@ -191,6 +192,7 @@ class _LoginViewState extends State<LoginView> {
     final fb = FacebookLogin();
     // ignore: unrelated_type_equality_checks
     bool isLogin = await fb.isLoggedIn;
+
     if (isLogin == true) {
       await fb.logOut();
     }
@@ -214,8 +216,10 @@ class _LoginViewState extends State<LoginView> {
         log("username : ${profile.name}");
         log("UserId    : ${accessToken.userId}");
 
-        var data =
-            await ResAuth.loginFB(fbId: accessToken.userId, name: profile.name);
+        var data = await ResAuth.loginFB(
+          fbId: accessToken.userId,
+          name: profile.name,
+        );
         print(data);
         if (data["status"] == true) {
           await Hive.box(EndBoxs.NaraApp).put("token", data["token"]);
@@ -231,6 +235,8 @@ class _LoginViewState extends State<LoginView> {
       case FacebookLoginStatus.error:
         // Log in failed
         log('Error while log in: ${res.error}');
+        RouterF.of(context).message("error", res.error.toString());
+
         break;
     }
     setState(() => _loading = false);
